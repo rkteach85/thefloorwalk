@@ -1,0 +1,1926 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thefloorwalk — India's #1 Mystery Shopping Company</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+      :root {
+        --cream: #faf8f4;
+        --white: #ffffff;
+        --sand: #f2ede3;
+        --border: #e5ddd0;
+        --navy: #0d1b2a;
+        --navy2: #1b3352;
+        --gold: #c98b00;
+        --gold2: #f0a800;
+        --text: #2c3e50;
+        --muted: #7f8c8d;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--cream);
+        color: var(--text);
+        font-family: "DM Sans", sans-serif;
+        overflow-x: hidden;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--sand);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--gold);
+        border-radius: 3px;
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 5vw;
+        height: 70px;
+        background: rgba(250, 248, 244, 0.96);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+        transition:
+          height 0.3s,
+          box-shadow 0.3s;
+      }
+      nav.scrolled {
+        height: 58px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      }
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.6rem;
+        font-weight: 900;
+        color: var(--navy);
+        letter-spacing: 1px;
+      }
+      .logo span {
+        color: var(--gold);
+      }
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+        align-items: center;
+      }
+      .nav-links a {
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: var(--text);
+        text-decoration: none;
+        transition: color 0.2s;
+        position: relative;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--gold);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s;
+      }
+      .nav-links a:hover {
+        color: var(--gold);
+      }
+      .nav-links a:hover::after {
+        transform: scaleX(1);
+      }
+      .nav-cta {
+        background: var(--navy) !important;
+        color: var(--white) !important;
+        padding: 0.55rem 1.4rem !important;
+        border-radius: 6px;
+        font-weight: 600 !important;
+      }
+      .nav-cta::after {
+        display: none !important;
+      }
+      .nav-cta:hover {
+        background: var(--navy2) !important;
+      }
+
+      /* HERO SLIDER */
+      .hero {
+        position: relative;
+        height: 100vh;
+        min-height: 580px;
+        overflow: hidden;
+        margin-top: 70px;
+      }
+      .slides-wrapper {
+        display: flex;
+        height: 100%;
+        transition: transform 0.85s cubic-bezier(0.77, 0, 0.18, 1);
+      }
+      .slide {
+        min-width: 100%;
+        height: 100%;
+        position: relative;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+      }
+      .slide-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        transition: transform 10s ease;
+      }
+      .slide.active .slide-bg {
+        transform: scale(1.07);
+      }
+      .slide-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          110deg,
+          rgba(13, 27, 42, 0.85) 0%,
+          rgba(13, 27, 42, 0.45) 55%,
+          rgba(13, 27, 42, 0.1) 100%
+        );
+      }
+      .slide-content {
+        position: relative;
+        z-index: 2;
+        padding: 0 8vw;
+        max-width: 800px;
+      }
+      .slide-badge {
+        display: inline-block;
+        background: var(--gold);
+        color: #fff;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 0.28rem 0.85rem;
+        border-radius: 3px;
+        margin-bottom: 1.2rem;
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      .slide.active .slide-badge {
+        animation: sup 0.6s 0.2s ease forwards;
+      }
+      .slide-content h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2.6rem, 6vw, 5.2rem);
+        font-weight: 900;
+        line-height: 1.05;
+        color: #fff;
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      .slide.active h1 {
+        animation: sup 0.7s 0.35s ease forwards;
+      }
+      .slide-content h1 em {
+        color: var(--gold2);
+        font-style: italic;
+      }
+      .slide-content p {
+        font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+        color: rgba(255, 255, 255, 0.8);
+        margin: 1.2rem 0 2rem;
+        max-width: 500px;
+        line-height: 1.75;
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      .slide.active p {
+        animation: sup 0.7s 0.5s ease forwards;
+      }
+      .slide-btns {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      .slide.active .slide-btns {
+        animation: sup 0.7s 0.65s ease forwards;
+      }
+      @keyframes sup {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .btn-gold {
+        background: var(--gold);
+        color: #fff;
+        font-size: 0.93rem;
+        font-weight: 700;
+        padding: 0.85rem 1.9rem;
+        border-radius: 7px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 4px 20px rgba(201, 139, 0, 0.4);
+        transition: all 0.25s;
+      }
+      .btn-gold:hover {
+        background: var(--gold2);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 28px rgba(201, 139, 0, 0.5);
+      }
+      .btn-ghost2 {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        font-size: 0.93rem;
+        font-weight: 600;
+        padding: 0.85rem 1.9rem;
+        border-radius: 7px;
+        border: 1.5px solid rgba(255, 255, 255, 0.35);
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.25s;
+        backdrop-filter: blur(4px);
+      }
+      .btn-ghost2:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-3px);
+      }
+
+      /* Slider Controls */
+      .s-dots {
+        position: absolute;
+        bottom: 44px;
+        left: 8vw;
+        z-index: 10;
+        display: flex;
+        gap: 0.55rem;
+      }
+      .s-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.35);
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .s-dot.on {
+        width: 28px;
+        background: var(--gold);
+      }
+      .s-arrows {
+        position: absolute;
+        bottom: 36px;
+        right: 8vw;
+        z-index: 10;
+        display: flex;
+        gap: 0.7rem;
+      }
+      .s-arr {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1.5px solid rgba(255, 255, 255, 0.3);
+        color: #fff;
+        font-size: 1.15rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        backdrop-filter: blur(6px);
+        transition: all 0.25s;
+      }
+      .s-arr:hover {
+        background: var(--gold);
+        border-color: var(--gold);
+      }
+
+      /* STATS STRIP */
+      .stats-strip {
+        background: var(--navy);
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+      }
+      .stat-box {
+        padding: 1.8rem 1rem;
+        text-align: center;
+        border-right: 1px solid rgba(255, 255, 255, 0.07);
+        transition: background 0.2s;
+      }
+      .stat-box:last-child {
+        border-right: none;
+      }
+      .stat-box:hover {
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .sn {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--gold2);
+      }
+      .sl {
+        font-size: 0.7rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: rgba(255, 255, 255, 0.45);
+        margin-top: 0.3rem;
+      }
+
+      /* SECTIONS */
+      section {
+        padding: 90px 6vw;
+      }
+      .eyebrow {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: var(--gold);
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .eyebrow::before {
+        content: "";
+        width: 22px;
+        height: 2px;
+        background: var(--gold);
+        display: inline-block;
+      }
+      .sec-h {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        font-weight: 900;
+        color: var(--navy);
+        line-height: 1.15;
+      }
+      .sec-h em {
+        color: var(--gold);
+        font-style: italic;
+      }
+      .sec-p {
+        font-size: 1rem;
+        color: var(--muted);
+        max-width: 540px;
+        margin-top: 1rem;
+        line-height: 1.7;
+      }
+
+      /* SERVICES */
+      .services {
+        background: var(--white);
+      }
+      .svc-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.4rem;
+        margin-top: 3.5rem;
+      }
+      .svc {
+        background: var(--cream);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 2.2rem 2rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s;
+      }
+      .svc::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--gold), var(--gold2));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s;
+      }
+      .svc:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        border-color: var(--gold);
+      }
+      .svc:hover::before {
+        transform: scaleX(1);
+      }
+      .svc-ico {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--gold), var(--gold2));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        margin-bottom: 1.2rem;
+        box-shadow: 0 6px 18px rgba(201, 139, 0, 0.3);
+      }
+      .svc h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 0.6rem;
+      }
+      .svc p {
+        font-size: 0.87rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .svc-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 1.1rem;
+      }
+      .stag {
+        font-size: 0.67rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        background: rgba(201, 139, 0, 0.09);
+        border: 1px solid rgba(201, 139, 0, 0.22);
+        color: var(--gold);
+        padding: 0.2rem 0.55rem;
+        border-radius: 4px;
+      }
+
+      /* WHY US */
+      .why {
+        background: var(--sand);
+      }
+      .why-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        align-items: center;
+        margin-top: 3.5rem;
+      }
+      .why-items {
+        display: flex;
+        flex-direction: column;
+        gap: 1.4rem;
+      }
+      .why-item {
+        display: flex;
+        gap: 1.2rem;
+        align-items: flex-start;
+        padding: 1.5rem;
+        background: var(--white);
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        transition: all 0.25s;
+      }
+      .why-item:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        transform: translateX(6px);
+      }
+      .why-num {
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+        background: var(--navy);
+        color: var(--gold);
+        font-family: "Playfair Display", serif;
+        font-size: 0.95rem;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .why-item h4 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 0.3rem;
+      }
+      .why-item p {
+        font-size: 0.84rem;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .why-card {
+        background: var(--white);
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        padding: 2.5rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+      }
+      .why-card h4 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.05rem;
+        color: var(--navy);
+        margin-bottom: 1.8rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .metric {
+        margin-bottom: 1.7rem;
+      }
+      .metric:last-child {
+        margin-bottom: 0;
+      }
+      .met-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.55rem;
+      }
+      .met-lbl {
+        font-size: 0.8rem;
+        color: var(--muted);
+        font-weight: 500;
+      }
+      .met-val {
+        font-family: "Playfair Display", serif;
+        font-size: 1.35rem;
+        font-weight: 900;
+        color: var(--navy);
+      }
+      .met-bar {
+        height: 6px;
+        background: var(--sand);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .met-fill {
+        height: 100%;
+        border-radius: 3px;
+        background: linear-gradient(90deg, var(--gold), var(--gold2));
+      }
+
+      /* CASE STUDY BANNER */
+      .case-banner {
+        background: var(--navy);
+        padding: 70px 6vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 3rem;
+        flex-wrap: wrap;
+      }
+      .cb-text h2 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+        color: #fff;
+        line-height: 1.2;
+      }
+      .cb-text h2 em {
+        color: var(--gold2);
+        font-style: italic;
+      }
+      .cb-text p {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.55);
+        margin-top: 0.8rem;
+        max-width: 460px;
+      }
+      .cb-stats {
+        display: flex;
+        gap: 3rem;
+        flex-wrap: wrap;
+      }
+      .cb-num {
+        font-family: "Playfair Display", serif;
+        font-size: 3rem;
+        font-weight: 900;
+        color: var(--gold2);
+      }
+      .cb-lbl {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: rgba(255, 255, 255, 0.45);
+        margin-top: 0.2rem;
+      }
+
+      /* TESTIMONIALS */
+      .testi {
+        background: var(--white);
+      }
+      .testi-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.4rem;
+        margin-top: 3.5rem;
+      }
+      .tcard {
+        background: var(--cream);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 2rem;
+        transition: all 0.3s;
+      }
+      .tcard:hover {
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.09);
+        transform: translateY(-4px);
+      }
+      .stars {
+        color: var(--gold);
+        font-size: 0.9rem;
+        letter-spacing: 3px;
+        margin-bottom: 1rem;
+      }
+      .tcard p {
+        font-size: 0.88rem;
+        color: var(--text);
+        line-height: 1.75;
+        font-style: italic;
+      }
+      .tauthor {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        margin-top: 1.4rem;
+      }
+      .av {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--navy), var(--navy2));
+        color: var(--gold);
+        font-family: "Playfair Display", serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .aname {
+        font-weight: 700;
+        font-size: 0.88rem;
+        color: var(--navy);
+      }
+      .arole {
+        font-size: 0.74rem;
+        color: var(--muted);
+      }
+
+      /* CLIENTS */
+      .clients {
+        background: var(--sand);
+        padding: 60px 6vw;
+      }
+      .mq-wrap {
+        overflow: hidden;
+        margin-top: 2.5rem;
+        position: relative;
+      }
+      .mq-wrap::before,
+      .mq-wrap::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        z-index: 2;
+        width: 80px;
+      }
+      .mq-wrap::before {
+        left: 0;
+        background: linear-gradient(90deg, var(--sand), transparent);
+      }
+      .mq-wrap::after {
+        right: 0;
+        background: linear-gradient(-90deg, var(--sand), transparent);
+      }
+      .mq-track {
+        display: flex;
+        gap: 1.2rem;
+        align-items: center;
+        animation: mq 24s linear infinite;
+        width: max-content;
+      }
+      .cpill {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.58rem 1.4rem;
+        font-size: 0.93rem;
+        font-weight: 700;
+        color: var(--navy2);
+        white-space: nowrap;
+        transition: all 0.2s;
+      }
+      .cpill:hover {
+        border-color: var(--gold);
+        color: var(--gold);
+      }
+      @keyframes mq {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* CONTACT */
+      .contact {
+        background: var(--cream);
+      }
+      .contact-wrap {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 4rem;
+        margin-top: 3.5rem;
+        align-items: start;
+      }
+      .ccard {
+        background: var(--navy);
+        border-radius: 16px;
+        padding: 2.5rem;
+      }
+      .ccard h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        color: #fff;
+        margin-bottom: 2rem;
+      }
+      .ci {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.7rem;
+      }
+      .ci-ico {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: rgba(240, 168, 0, 0.14);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+      .ci-lbl {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: rgba(255, 255, 255, 0.38);
+        margin-bottom: 0.2rem;
+      }
+      .ci-val {
+        font-size: 0.88rem;
+        color: #fff;
+      }
+      .ci-val a {
+        color: var(--gold2);
+        text-decoration: none;
+      }
+      .rbadge {
+        background: rgba(240, 168, 0, 0.1);
+        border: 1px solid rgba(240, 168, 0, 0.22);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 1rem;
+      }
+      .rbadge p {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.55);
+      }
+      .rbadge strong {
+        color: var(--gold2);
+      }
+
+      /* FORM */
+      .fcard {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 2.8rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.07);
+      }
+      .fcard h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.65rem;
+        color: var(--navy);
+        margin-bottom: 0.4rem;
+      }
+      .fsub {
+        font-size: 0.83rem;
+        color: var(--muted);
+        margin-bottom: 2rem;
+      }
+      .frow {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+      .fg {
+        margin-bottom: 1rem;
+      }
+      .fg label {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--navy2);
+        margin-bottom: 0.42rem;
+      }
+      .fg input,
+      .fg select,
+      .fg textarea {
+        width: 100%;
+        background: var(--cream);
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        color: var(--text);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.91rem;
+        padding: 0.76rem 1rem;
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+      .fg input:focus,
+      .fg select:focus,
+      .fg textarea:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(201, 139, 0, 0.11);
+        background: var(--white);
+      }
+      .fg select {
+        appearance: none;
+        cursor: pointer;
+      }
+      .fg textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+      .sbtn {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, var(--navy), var(--navy2));
+        color: #fff;
+        font-family: "DM Sans", sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        letter-spacing: 0.3px;
+        transition: all 0.3s;
+        box-shadow: 0 6px 24px rgba(13, 27, 42, 0.22);
+        margin-top: 0.5rem;
+      }
+      .sbtn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(13, 27, 42, 0.32);
+      }
+      .sbtn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .fmsg {
+        display: none;
+        margin-top: 1rem;
+        padding: 0.85rem 1rem;
+        border-radius: 8px;
+        font-size: 0.87rem;
+      }
+      .fmsg.ok {
+        display: block;
+        background: #e8f8ee;
+        border: 1px solid #a3d9b1;
+        color: #1e7e34;
+      }
+      .fmsg.err {
+        display: block;
+        background: #fdecea;
+        border: 1px solid #f5a9a3;
+        color: #c0392b;
+      }
+
+      /* SUCCESS POPUP */
+      .success-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+      }
+      .success-overlay.show {
+        display: flex;
+      }
+      .success-box {
+        background: #fff;
+        border-radius: 16px;
+        padding: 3rem 2.5rem;
+        max-width: 420px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      @keyframes popIn {
+        from { transform: scale(0.7); opacity: 0; }
+        to   { transform: scale(1);   opacity: 1; }
+      }
+      .success-icon { font-size: 4rem; margin-bottom: 1rem; }
+      .success-box h2 {
+        font-family: "Playfair Display", serif;
+        color: var(--navy);
+        font-size: 1.6rem;
+        margin-bottom: 0.75rem;
+      }
+      .success-box p {
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+      }
+      .success-close {
+        background: var(--gold);
+        color: #fff;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .success-close:hover { background: var(--gold2); }
+
+      /* FOOTER */
+      footer {
+        background: var(--navy);
+        padding: 70px 6vw 30px;
+      }
+      .fg-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 3rem;
+        margin-bottom: 3rem;
+      }
+      .flogo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: #fff;
+        margin-bottom: 0.8rem;
+      }
+      .flogo span {
+        color: var(--gold2);
+      }
+      .fbrand p {
+        font-size: 0.83rem;
+        color: rgba(255, 255, 255, 0.4);
+        max-width: 240px;
+        line-height: 1.7;
+      }
+      .socials {
+        display: flex;
+        gap: 0.6rem;
+        margin-top: 1.4rem;
+      }
+      .soc {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.82rem;
+        color: rgba(255, 255, 255, 0.45);
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+      .soc:hover {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #fff;
+      }
+      .fcol h5 {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: rgba(255, 255, 255, 0.45);
+        margin-bottom: 1.2rem;
+      }
+      .fcol ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+      .fcol a {
+        font-size: 0.83rem;
+        color: rgba(255, 255, 255, 0.4);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .fcol a:hover {
+        color: var(--gold2);
+      }
+      .fbot {
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        padding-top: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .fbot p {
+        font-size: 0.76rem;
+        color: rgba(255, 255, 255, 0.28);
+      }
+
+      /* REVEAL */
+      .r {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .r.v {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 1024px) {
+        .svc-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .why-grid {
+          grid-template-columns: 1fr;
+        }
+        .contact-wrap {
+          grid-template-columns: 1fr;
+        }
+        .fg-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        .stats-strip {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .svc-grid {
+          grid-template-columns: 1fr;
+        }
+        .testi-grid {
+          grid-template-columns: 1fr;
+        }
+        .fg-grid {
+          grid-template-columns: 1fr;
+        }
+        .frow {
+          grid-template-columns: 1fr;
+        }
+        .cb-stats {
+          gap: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav id="nav">
+      <div class="logo">The<span>floorwalk</span></div>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#why">Why Us</a></li>
+        <li><a href="#testimonials">Clients</a></li>
+        <li><a href="#contact" class="nav-cta">Get Audit</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO SLIDER -->
+    <div class="hero">
+      <div class="slides-wrapper" id="slidesWrap">
+        <div class="slide active">
+          <div
+            class="slide-bg"
+            style="
+              background-image: url(&quot;https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1600&q=80&quot;);
+            "
+          ></div>
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-badge">India's #1 Mystery Shopping Company</div>
+            <h1>Measure What <em>Actually</em> Happens At Your Stores</h1>
+            <p>
+              1,00,000+ auditors across 200+ cities delivering real-time,
+              behaviour-based retail audit data with 100% completion rate —
+              guaranteed.
+            </p>
+            <div class="slide-btns">
+              <a href="#contact" class="btn-gold">Start an Audit Programme</a>
+              <a href="#services" class="btn-ghost2">Explore Services ↓</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <div
+            class="slide-bg"
+            style="
+              background-image: url(&quot;https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1600&q=80&quot;);
+            "
+          ></div>
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-badge">Price Check Audits — SRP / MOP</div>
+            <h1>Control Pricing Across Your <em>Entire Channel</em></h1>
+            <p>
+              Discover SRP violations, identify non-compliant channel partners,
+              and gather real-time competitor pricing intelligence with proof.
+            </p>
+            <div class="slide-btns">
+              <a href="#contact" class="btn-gold">Request a Price Audit</a>
+              <a href="#services" class="btn-ghost2">Learn More ↓</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <div
+            class="slide-bg"
+            style="
+              background-image: url(&quot;https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&q=80&quot;);
+            "
+          ></div>
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-badge">Store Staff Audits</div>
+            <h1>Know Your Staff's <em>Real Performance</em> On The Floor</h1>
+            <p>
+              Evaluate grooming, product knowledge and selling behaviour
+              covertly. Identify training gaps and improve CX at scale.
+            </p>
+            <div class="slide-btns">
+              <a href="#contact" class="btn-gold">Audit My Staff</a>
+              <a href="#services" class="btn-ghost2">View All Audits ↓</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <div
+            class="slide-bg"
+            style="
+              background-image: url(&quot;https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&q=80&quot;);
+            "
+          ></div>
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-badge">TracknTrain Technology</div>
+            <h1>Real-Time Data. <em>Geotagged Proof.</em> Instant Reports.</h1>
+            <p>
+              Our proprietary platform delivers GPS-verified audit data with
+              weighted scoring and custom client dashboards — delivered live.
+            </p>
+            <div class="slide-btns">
+              <a href="#contact" class="btn-gold">Get a Free Brief</a>
+              <a href="#why" class="btn-ghost2">Our Technology ↓</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-dots" id="sdots">
+        <div class="s-dot on" onclick="goTo(0)"></div>
+        <div class="s-dot" onclick="goTo(1)"></div>
+        <div class="s-dot" onclick="goTo(2)"></div>
+        <div class="s-dot" onclick="goTo(3)"></div>
+      </div>
+      <div class="s-arrows">
+        <div class="s-arr" onclick="prevS()">&#8592;</div>
+        <div class="s-arr" onclick="nextS()">&#8594;</div>
+      </div>
+    </div>
+
+    <!-- STATS STRIP -->
+    <div class="stats-strip">
+      <div class="stat-box">
+        <div class="sn">1,00,000+</div>
+        <div class="sl">Shoppers & Auditors</div>
+      </div>
+      <div class="stat-box">
+        <div class="sn">5,000+</div>
+        <div class="sl">Monthly Audits</div>
+      </div>
+      <div class="stat-box">
+        <div class="sn">200+</div>
+        <div class="sl">Cities Covered</div>
+      </div>
+      <div class="stat-box">
+        <div class="sn">100%</div>
+        <div class="sl">Completion Rate</div>
+      </div>
+      <div class="stat-box">
+        <div class="sn">500+</div>
+        <div class="sl">Brands Served</div>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+      <div class="eyebrow">Audit Programmes</div>
+      <h2 class="sec-h r">Mystery Shopping & <em>Retail Audit Types</em></h2>
+      <p class="sec-p r">
+        Six specialist audit programmes, each measuring a specific dimension of
+        your retail experience using real-time technology and geotagged proof.
+      </p>
+      <div class="svc-grid">
+        <div class="svc r">
+          <div class="svc-ico">📍</div>
+          <h3>Address verification services</h3>
+          <p>
+            Our address verification service validates the correctness of the
+            address given by your employee or clients. We make extensive
+            verification to verify that the information is accurate and current
+          </p>
+          <div class="svc-tags">
+            <span class="stag">Field verification</span
+            ><span class="stag">Nationwide Coverage</span>
+          </div>
+        </div>
+        <div class="svc r">
+          <div class="svc-ico">🏪</div>
+          <h3>Retail Operations Audits</h3>
+          <p>
+            Systematic verification of fixtures, signage, branded displays and
+            SOP compliance across your entire retail network with location-level
+            indexing.
+          </p>
+          <div class="svc-tags">
+            <span class="stag">Fixtures</span><span class="stag">Signage</span
+            ><span class="stag">SOP</span>
+          </div>
+        </div>
+        <div class="svc r">
+          <div class="svc-ico">📦</div>
+          <h3>Stock Audits</h3>
+          <p>
+            Accurate inventory measurements ensuring proper accounting,
+            freshness quality monitoring and shrinkage minimization across your
+            supply chain.
+          </p>
+          <div class="svc-tags">
+            <span class="stag">Inventory</span
+            ><span class="stag">Shrinkage</span
+            ><span class="stag">Freshness</span>
+          </div>
+        </div>
+        <div class="svc r">
+          <div class="svc-ico">💰</div>
+          <h3>Price Check Audits (SRP/MOP)</h3>
+          <p>
+            Measure pricing violations, identify non-compliant channel partners,
+            and gather real-time competitor pricing intelligence with proof.
+          </p>
+          <div class="svc-tags">
+            <span class="stag">SRP Audit</span
+            ><span class="stag">MOP Audit</span
+            ><span class="stag">Competitor Intel</span>
+          </div>
+        </div>
+        <div class="svc r">
+          <div class="svc-ico">👔</div>
+          <h3>Store Staff Audits</h3>
+          <p>
+            Evaluate grooming, product knowledge, communication and selling
+            behaviour covertly. Identify training gaps and improve customer
+            satisfaction at scale.
+          </p>
+          <div class="svc-tags">
+            <span class="stag">Skills</span><span class="stag">Grooming</span
+            ><span class="stag">Selling</span>
+          </div>
+        </div>
+        <div class="svc r">
+          <div class="svc-ico">💻</div>
+          <h3>E-Commerce Seller Audits</h3>
+          <p>
+            Marketplace listing compliance checks across Amazon, Flipkart and
+            other major platforms ensuring your brand is represented correctly.
+          </p>
+          <div class="svc-tags">
+            <span class="stag">Listing</span
+            ><span class="stag">Marketplace</span
+            ><span class="stag">Compliance</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY US -->
+    <section class="why" id="why">
+      <div class="eyebrow">Our Differentiators</div>
+      <h2 class="sec-h r">Why Brands Choose <em>Thefloorwalk</em></h2>
+      <p class="sec-p r">
+        Most mystery shopping agencies subcontract and deliver slow results. We
+        operate on a fundamentally different model — direct, accountable, and
+        technology-driven.
+      </p>
+      <div class="why-grid">
+        <div class="why-items">
+          <div class="why-item r">
+            <div class="why-num">01</div>
+            <div>
+              <h4>Vast Geographical Coverage</h4>
+              <p>
+                1,00,000 shoppers across 200+ cities including Tier-2 and Tier-3
+                markets where most agencies have no presence.
+              </p>
+            </div>
+          </div>
+          <div class="why-item r">
+            <div class="why-num">02</div>
+            <div>
+              <h4>100% Completion Rate — No Exceptions</h4>
+              <p>
+                No exceptions, no excuses — across every programme, every
+                client, every city. A promise that has never been broken.
+              </p>
+            </div>
+          </div>
+          <div class="why-item r">
+            <div class="why-num">03</div>
+            <div>
+              <h4>Behaviour-Based Detailed Surveys</h4>
+              <p>
+                Our framework captures every minute metric — pinpointing
+                specific, observable attributes, not vague subjective
+                impressions.
+              </p>
+            </div>
+          </div>
+          <div class="why-item r">
+            <div class="why-num">04</div>
+            <div>
+              <h4>Direct One-on-One Shopper Management</h4>
+              <p>
+                Dedicated schedulers speak with every shopper daily. No
+                subcontracting. No quality gaps. Zero compromises.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="why-card r">
+          <h4>📊 Proven Programme Outcomes</h4>
+          <div class="metric">
+            <div class="met-top">
+              <span class="met-lbl"
+                >Retail Execution Improvement (Google Pixel)</span
+              ><span class="met-val">35%</span>
+            </div>
+            <div class="met-bar">
+              <div class="met-fill" style="width: 35%"></div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="met-top">
+              <span class="met-lbl">Cities Covered Simultaneously</span
+              ><span class="met-val">232+</span>
+            </div>
+            <div class="met-bar">
+              <div class="met-fill" style="width: 78%"></div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="met-top">
+              <span class="met-lbl">Monthly Audits Completed</span
+              ><span class="met-val">5,000+</span>
+            </div>
+            <div class="met-bar">
+              <div class="met-fill" style="width: 90%"></div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="met-top">
+              <span class="met-lbl">Programme Launch (Working Days)</span
+              ><span class="met-val">7–10</span>
+            </div>
+            <div class="met-bar">
+              <div class="met-fill" style="width: 22%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASE BANNER -->
+    <div class="case-banner r">
+      <div class="cb-text">
+        <h2>
+          Google Pixel Achieved a <em>35% Improvement</em> in Retail Execution
+        </h2>
+        <p>
+          Systematic store-level visibility auditing across 232+ cities
+          simultaneously — geotagged photo evidence, real-time compliance
+          scoring.
+        </p>
+      </div>
+      <div class="cb-stats">
+        <div>
+          <div class="cb-num">35%</div>
+          <div class="cb-lbl">Execution Improvement</div>
+        </div>
+        <div>
+          <div class="cb-num">232+</div>
+          <div class="cb-lbl">Cities Covered</div>
+        </div>
+        <div>
+          <div class="cb-num">Real-Time</div>
+          <div class="cb-lbl">Data Delivery</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TESTIMONIALS -->
+    <section class="testi" id="testimonials">
+      <div class="eyebrow">Client Voices</div>
+      <h2 class="sec-h r">What Brands Say About <em>Thefloorwalk</em></h2>
+      <div class="testi-grid">
+        <div class="tcard r">
+          <div class="stars">★★★★★</div>
+          <p>
+            "Thefloorwalk' mystery audit gave us real-time, verifiable data on our
+            retail brand health across 200+ cities. Geotagged photo evidence
+            meant we could act on compliance issues within hours, not weeks."
+          </p>
+          <div class="tauthor">
+            <div class="av">GP</div>
+            <div>
+              <div class="aname">Brand Manager</div>
+              <div class="arole">
+                Google Pixel India · Retail Visibility Programme
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tcard r">
+          <div class="stars">★★★★★</div>
+          <p>
+            "The completion rate and data quality from Thefloorwalk is genuinely
+            unlike anything we experienced before. No subcontracting means the
+            brief is actually executed, not approximated."
+          </p>
+          <div class="tauthor">
+            <div class="av">RH</div>
+            <div>
+              <div class="aname">Retail Operations Head</div>
+              <div class="arole">
+                Leading Consumer Electronics Brand · India
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tcard r">
+          <div class="stars">★★★★★</div>
+          <p>
+            "Within one programme cycle, we quantified the pricing gap,
+            identified non-compliant partners, and had data to enforce
+            corrective action. The ROI was immediate."
+          </p>
+          <div class="tauthor">
+            <div class="av">SM</div>
+            <div>
+              <div class="aname">Sales Director</div>
+              <div class="arole">FMCG Brand · Price Check Audit Programme</div>
+            </div>
+          </div>
+        </div>
+        <div class="tcard r">
+          <div class="stars">★★★★★</div>
+          <p>
+            "thefloorwalk' behaviour-based audit design transformed our quarterly
+            training cycles. Specific, observable behaviours our team could act
+            on directly — not vague impressions."
+          </p>
+          <div class="tauthor">
+            <div class="av">NP</div>
+            <div>
+              <div class="aname">National Training Manager</div>
+              <div class="arole">QSR Chain · Store Staff Audit Programme</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLIENTS -->
+    <section class="clients">
+      <div class="eyebrow">Trusted By</div>
+      <h2 class="sec-h r">500+ Brands Across <em>India</em></h2>
+      <div class="mq-wrap">
+        <div class="mq-track">
+          <div class="cpill">Google</div>
+          <div class="cpill">Airtel</div>
+          <div class="cpill">KFC</div>
+          <div class="cpill">Swiggy</div>
+          <div class="cpill">Deloitte</div>
+          <div class="cpill">P&amp;G</div>
+          <div class="cpill">OYO Rooms</div>
+          <div class="cpill">Cipla</div>
+          <div class="cpill">Daikin</div>
+          <div class="cpill">Eastman</div>
+          <div class="cpill">Meesho</div>
+          <div class="cpill">Amazon</div>
+          <div class="cpill">Kotak</div>
+          <div class="cpill">Patanjali</div>
+          <div class="cpill">BYJU's</div>
+          <div class="cpill">Practo</div>
+          <div class="cpill">Google</div>
+          <div class="cpill">Airtel</div>
+          <div class="cpill">KFC</div>
+          <div class="cpill">Swiggy</div>
+          <div class="cpill">Deloitte</div>
+          <div class="cpill">P&amp;G</div>
+          <div class="cpill">OYO Rooms</div>
+          <div class="cpill">Cipla</div>
+          <div class="cpill">Daikin</div>
+          <div class="cpill">Eastman</div>
+          <div class="cpill">Meesho</div>
+          <div class="cpill">Amazon</div>
+          <div class="cpill">Kotak</div>
+          <div class="cpill">Patanjali</div>
+          <div class="cpill">BYJU's</div>
+          <div class="cpill">Practo</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <div class="eyebrow">Get In Touch</div>
+      <h2 class="sec-h r">Start Your <em>Audit Programme</em></h2>
+      <p class="sec-p r">
+        Fill the form — our specialist responds within 4 business hours.
+        Mon–Sat, 10am–6pm IST.
+      </p>
+      <div class="contact-wrap">
+        <div class="ccard r">
+          <h3>Contact Details</h3>
+          <div class="ci">
+            <div class="ci-ico">📞</div>
+            <div>
+              <div class="ci-lbl">Call / WhatsApp</div>
+              <div class="ci-val">
+                <a href="tel:+919451666190">+919451666190</a>
+              </div>
+            </div>
+          </div>
+          <div class="ci">
+            <div class="ci-ico">✉️</div>
+            <div>
+              <div class="ci-lbl">Email</div>
+              <div class="ci-val">
+                <a href="info@thefloorwalk.com"
+                  >info@thefloorwalk.com</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="ci">
+            <div class="ci-ico">📍</div>
+            <div>
+              <div class="ci-lbl">Office</div>
+              <div class="ci-val">
+                plot Number B108 Noida sector 63 UP 201305
+              </div>
+            </div>
+          </div>
+          <div class="ci">
+            <div class="ci-ico">🌐</div>
+            <div>
+              <div class="ci-lbl">Coverage</div>
+              <div class="ci-val">200+ cities · Pan-India</div>
+            </div>
+          </div>
+          <div class="rbadge">
+            <p>
+              ⚡ <strong>4-hour response</strong> guarantee<br />Mon–Sat,
+              10am–6pm IST. Programme launches in 7–10 working days.
+            </p>
+          </div>
+        </div>
+        <div class="fcard r">
+          <h3>Request a Free Consultation</h3>
+          <p class="fsub">
+            🔒 Confidential. We never share your details with third parties.
+          </p>
+          <div class="frow">
+            <div class="fg">
+              <label>Full Name *</label
+              ><input
+                type="text"
+                id="u_name"
+                placeholder="Your full name"
+                required
+              />
+            </div>
+            <div class="fg">
+              <label>Company *</label
+              ><input
+                type="text"
+                id="u_company"
+                placeholder="Company name"
+                required
+              />
+            </div>
+          </div>
+          <div class="frow">
+            <div class="fg">
+              <label>Official Email *</label
+              ><input
+                type="email"
+                id="u_email"
+                placeholder="you@company.com"
+                required
+              />
+            </div>
+            <div class="fg">
+              <label>Phone Number *</label
+              ><input
+                type="tel"
+                id="u_phone"
+                placeholder="+91 XXXXX XXXXX"
+                required
+              />
+            </div>
+          </div>
+          <div class="fg">
+            <label>Type of Audit Required *</label>
+            <select id="u_audit">
+              <option value="">— Please choose an option —</option>
+              <option>Mystery Shopping (Customer Experience)</option>
+              <option>Retail Operations Audit</option>
+              <option>Stock Audit</option>
+              <option>Price Check Audit (SRP/MOP)</option>
+              <option>Store Staff Audit</option>
+              <option>E-commerce Seller Audit</option>
+              <option>Multiple Audit Types / Full Programme</option>
+              <option>Not Sure — Need Consultation</option>
+            </select>
+          </div>
+          <div class="frow">
+            <div class="fg">
+              <label>Number of Locations</label>
+              <select id="u_loc">
+                <option value="">— Please choose —</option>
+                <option>1–10 locations</option>
+                <option>11–50 locations</option>
+                <option>51–200 locations</option>
+                <option>200+ locations</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>Target Geography</label
+              ><input
+                type="text"
+                id="u_geo"
+                placeholder="e.g. Pan India, Delhi NCR"
+              />
+            </div>
+          </div>
+          <div class="fg">
+            <label>Brief Requirement (Optional)</label
+            ><textarea
+              id="u_msg"
+              placeholder="Tell us about your audit objectives, timeline, or specific requirements..."
+            ></textarea>
+          </div>
+          <button class="sbtn" id="sbtn" onclick="sendMail()">
+            Send Enquiry — Response Within 4 Hours →
+          </button>
+          <div class="fmsg" id="fmsg"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUCCESS POPUP -->
+    <div class="success-overlay" id="successOverlay">
+      <div class="success-box">
+        <div class="success-icon">🎉</div>
+        <h2>Enquiry Submitted!</h2>
+        <p>Thank you! Your inquiry has been successfully sent.<br>our team<strong>4 business hours</strong> I will contact you.</p>
+        <button class="success-close" onclick="document.getElementById('successOverlay').classList.remove('show')">Thank you!</button>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="fg-grid">
+        <div class="fbrand">
+          <div class="flogo">The<span>floorwalk</span></div>
+          <p>
+            India's leading mystery shopping and retail execution company — 27+
+            states, 1,00,000+ auditors, 100% completion rate.
+          </p>
+          <div class="socials">
+            <a href="#" class="soc">in</a>
+            <a href="#" class="soc">𝕏</a>
+            <a href="#" class="soc">f</a>
+            <a href="#" class="soc">▶</a>
+          </div>
+        </div>
+        <div class="fcol">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="#">Mystery Shopping</a></li>
+            <li><a href="#">Retail Audits</a></li>
+            <li><a href="#">Stock Audits</a></li>
+            <li><a href="#">Price Check</a></li>
+            <li><a href="#">Staff Audits</a></li>
+            <li><a href="#">E-Commerce Audit</a></li>
+          </ul>
+        </div>
+        <div class="fcol">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Case Studies</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blogs</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="fcol">
+          <h5>Contact</h5>
+          <ul>
+            <li><a href="tel:+919451666190">+919451666190</a></li>
+            <li><a href="info@thefloorwalk.com">Email Us</a></li>
+            <li><a href="#">Apply as Shopper</a></li>
+            <li><a href="#">Internships</a></li>
+          </ul>
+        </div>
+      </div>
+         </footer>
+
+    <script>
+      // ── EmailJS Config ──
+      const EJ_KEY = "ht6el4tdT3dT5Nzhz";
+      const EJ_SVC = "service_osffing";
+      const EJ_TPL = "template_oskexl9";
+      const ADM = "ravinderprajapati8576@gmail.com";
+
+      emailjs.init(EJ_KEY);
+
+      function sendMail() {
+        const name = document.getElementById("u_name").value.trim();
+        const company = document.getElementById("u_company").value.trim();
+        const email = document.getElementById("u_email").value.trim();
+        const phone = document.getElementById("u_phone").value.trim();
+        const audit = document.getElementById("u_audit").value;
+        const loc = document.getElementById("u_loc").value;
+        const geo = document.getElementById("u_geo").value.trim();
+        const msg = document.getElementById("u_msg").value.trim();
+        const status = document.getElementById("fmsg");
+        const btn = document.getElementById("sbtn");
+
+        if (!name || !company || !email || !phone || !audit) {
+          status.className = "fmsg err";
+          status.textContent = "⚠️ Please fill all required fields (marked *).";
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          status.className = "fmsg err";
+          status.textContent = "⚠️ Please enter a valid email address.";
+          return;
+        }
+        btn.disabled = true;
+        btn.textContent = "Sending...";
+        status.className = "fmsg";
+        status.style.display = "none";
+
+        emailjs
+          .send(EJ_SVC, EJ_TPL, {
+            from_name: name,
+            company: company,
+            from_email: email,
+            phone: phone,
+            audit_type: audit,
+            locations: loc || "Not specified",
+            geography: geo || "Not specified",
+            message: msg || "No details.",
+            time: new Date().toLocaleString("en-IN", {
+              timeZone: "Asia/Kolkata",
+            }),
+          })
+          .then(() => {
+            // Show success popup
+            document.getElementById('successOverlay').classList.add('show');
+            status.className = "fmsg ok";
+            status.textContent = "✅ Enquiry sent! Our team will contact you within 4 business hours.";
+            btn.textContent = "✓ Sent Successfully";
+            [
+              "u_name",
+              "u_company",
+              "u_email",
+              "u_phone",
+              "u_audit",
+              "u_loc",
+              "u_geo",
+              "u_msg",
+            ].forEach((id) => (document.getElementById(id).value = ""));
+          })
+          .catch(() => {
+            status.className = "fmsg err";
+            status.textContent =
+              "❌ Send failed. Please email thefloorwalk@gmail.com or call +91 94511666190.";
+            btn.disabled = false;
+            btn.textContent = "Send Enquiry — Response Within 4 Hours →";
+          });
+      }
+
+      // ── Slider ──
+      let cur = 0,
+        total = 4;
+      let timer = setInterval(nextS, 5500);
+
+      function goTo(n) {
+        document.querySelectorAll(".slide")[cur].classList.remove("active");
+        document.querySelectorAll(".s-dot")[cur].classList.remove("on");
+        cur = ((n % total) + total) % total;
+        document.querySelectorAll(".slide")[cur].classList.add("active");
+        document.querySelectorAll(".s-dot")[cur].classList.add("on");
+        document.getElementById("slidesWrap").style.transform =
+          `translateX(-${cur * 100}%)`;
+      }
+      function nextS() {
+        clearInterval(timer);
+        goTo(cur + 1);
+        timer = setInterval(nextS, 5500);
+      }
+      function prevS() {
+        clearInterval(timer);
+        goTo(cur - 1);
+        timer = setInterval(nextS, 5500);
+      }
+
+      // ── Nav Scroll ──
+      window.addEventListener("scroll", () => {
+        document
+          .getElementById("nav")
+          .classList.toggle("scrolled", scrollY > 60);
+      });
+
+      // ── Scroll Reveal ──
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("v");
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".r").forEach((el) => obs.observe(el));
+    </script>
+  </body>
+</html>
